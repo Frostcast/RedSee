@@ -1,0 +1,43 @@
+{
+  "name": "RedSee",
+  "version": "0.0.1",
+  "private": "true",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "async-debounce": "0.0.0",
+    "body-parser": "^1.12.4",
+    "bunyan": "^1.4.0",
+    "bunyan-middleware": "^0.2.0",
+    "byline": "^4.2.1",
+    "express": "^4.12.4",
+    "express-graceful-shutdown": "0.0.2",
+    "natural": "^0.2.1",
+    "redis": "^0.12.1",
+    "redis-scanstreams": "^1.0.3",
+    "redsee-filter": "0.0.1",
+    "redsee-server": "0.0.1",
+    "request": "^2.57.0",
+    "response-time": "^2.3.1"
+  },
+  "devDependencies": {
+    "istanbul": "0.3.5",
+    "jscs": "1",
+    "jshint": "2",
+    "jshint-full-path": "0",
+    "mocha": "2"
+  },
+  "scripts": {
+    "lint": "jshint .",
+    "checkStyle": "jscs .",
+    "pretest": "npm run-script lint && npm run-script checkStyle",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "posttest": "./node_modules/.bin/istanbul check-coverage && rm -rf coverage",
+    "prepublish": "npm test && npm prune"
+  },
+  "author": "James Mortemore <jamesmortemore@gmail.com>",
+  "license": "ISC"
+}
