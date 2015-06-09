@@ -70048,7 +70048,6 @@ fingerfish
 fingerflower
 fingerhold
 fingerhook
-fingering
 fingerleaf
 fingerless
 fingerlet
@@ -70366,7 +70365,6 @@ fisticuffer
 fisticuffery
 fistify
 fistiness
-fisting
 fistlike
 fistmele
 fistnote
@@ -76970,7 +76968,6 @@ gewgawed
 gewgawish
 gewgawry
 gewgawy
-gey
 geyan
 geyerite
 geyser
@@ -146837,7 +146834,6 @@ pimienta
 pimiento
 pimlico
 pimola
-pimp
 pimperlimpimp
 pimpernel
 pimpery
@@ -179775,7 +179771,6 @@ shastra
 shastraik
 shastri
 shastrik
-shat
 shatan
 shathmont
 Shatter
@@ -203764,7 +203759,6 @@ tissuelike
 tissuey
 tisswood
 tiswin
-tit
 Titan
 titanate
 titanaugite
