@@ -21,7 +21,6 @@ Generates words-whitelist.txt based on `/usr/share/dict/words` and ignores any w
 #### Usage
 ```
 node scripts/builder.js
-})
 ```
 
 ### insert
