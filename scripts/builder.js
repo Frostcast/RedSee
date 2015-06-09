@@ -6,7 +6,7 @@ var fs = require('fs')
 
 input
   .on('data', function (word) {
-    if (blacklistedWords.indexOf(word) !== -1) return
+    if (blacklistedWords.indexOf(word.toLowerCase()) !== -1) return
 
     output.write(word + '\n')
   })
