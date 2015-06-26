@@ -15,6 +15,7 @@
     "byline": "^4.2.1",
     "express": "^4.12.4",
     "express-graceful-shutdown": "0.0.2",
+    "hiredis": "^0.4.0",
     "natural": "^0.2.1",
     "redis": "^0.12.1",
     "redis-scanstreams": "^1.0.3",
@@ -31,12 +32,6 @@
     "mocha": "2"
   },
   "scripts": {
-    "lint": "jshint .",
-    "checkStyle": "jscs .",
-    "pretest": "npm run-script lint && npm run-script checkStyle",
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "posttest": "./node_modules/.bin/istanbul check-coverage && rm -rf coverage",
-    "prepublish": "npm test && npm prune"
   },
   "author": "James Mortemore <jamesmortemore@gmail.com>",
   "license": "ISC"
