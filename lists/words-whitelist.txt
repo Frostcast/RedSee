@@ -19109,7 +19109,6 @@ Bast
 bast
 basta
 Bastaard
-Bastard
 bastardism
 bastardization
 bastardize
@@ -37647,7 +37646,6 @@ clitoridean
 clitoridectomy
 clitoriditis
 clitoridotomy
-clitoris
 clitorism
 clitoritis
 clitter
@@ -53193,7 +53191,6 @@ dichroscope
 dichroscopic
 Dichter
 dicing
-Dick
 dickcissel
 dickens
 Dickensian
@@ -60001,7 +59998,6 @@ eisteddfod
 eisteddfodic
 eisteddfodism
 either
-ejaculate
 ejaculation
 ejaculative
 ejaculator
@@ -132044,7 +132040,6 @@ organry
 organule
 organum
 organzine
-orgasm
 orgasmic
 orgastic
 orgeat
@@ -132060,7 +132055,6 @@ orgue
 orguinette
 orgulous
 orgulously
-orgy
 orgyia
 Orias
 Oribatidae
@@ -168252,7 +168246,6 @@ retardate
 retardation
 retardative
 retardatory
-retarded
 retardence
 retardent
 retarder
@@ -177163,7 +177156,6 @@ semeiotical
 semeiotics
 semelfactive
 semelincident
-semen
 semence
 Semeostoma
 semese
@@ -186161,7 +186153,6 @@ Spergularia
 sperity
 sperket
 sperling
-sperm
 sperma
 spermaceti
 spermacetilike
@@ -197906,7 +197897,6 @@ tampin
 tamping
 tampion
 tampioned
-tampon
 tamponade
 tamponage
 tamponment
@@ -200551,7 +200541,6 @@ testibrachium
 testicardinate
 testicardine
 Testicardines
-testicle
 testicond
 testicular
 testiculate
