@@ -10,29 +10,53 @@ var byline = require('byline')
   , fs = require('fs')
   , whiteInput = byline(fs.createReadStream(__dirname + '/../lists/words-whitelist.txt', { encoding: 'utf8' }))
   , whiteCount = 0
+  , wordInc = 500
+  , words = []
 
 whiteInput.on('data', function (word) {
-  whiteInput.pause()
+  words.push(word)
 
-  request(
-    { url: url + '/filter/word'
-    , method: 'POST'
-    , json: true
-    , headers: { 'content-type': 'application/json' }
-    , body: { msg: [ word ], type: 'whitelist' }
-    }, function (error) {
-      if (error) {
-        console.error(error)
-      } else {
-        whiteCount++
-      }
+  if (words.length === wordInc) {
+    whiteInput.pause()
+    request(
+      { url: url + '/filter/word'
+      , method: 'POST'
+      , json: true
+      , headers: { 'content-type': 'application/json' }
+      , body: { msg: words , type: 'whitelist' }
+      }, function (error) {
+        if (error) {
+          console.error(error)
+        } else {
+          whiteCount+= words.length
+          words = []
+        }
 
-      whiteInput.resume()
-    })
+        whiteInput.resume()
+      })
+  }
 })
 
 whiteInput.on('end', function () {
-  console.log('Added ' + whiteCount + ' words to whitelist')
+  if (words.length !== 0) {
+    request(
+      { url: url + '/filter/word'
+      , method: 'POST'
+      , json: true
+      , headers: { 'content-type': 'application/json' }
+      , body: { msg: words , type: 'whitelist' }
+      }, function (error) {
+        if (error) {
+          console.error(error)
+        } else {
+          whiteCount+= words.length
+        }
+
+        console.log('Added ' + whiteCount + ' words to whitelist')
+      })
+  } else {
+    console.log('Added ' + whiteCount + ' words to whitelist')
+  }
 
   var blackInput = byline(fs.createReadStream(__dirname + '/../lists/words-blacklist.txt', { encoding: 'utf8' }))
    , blackCount = 0
@@ -59,5 +83,33 @@ whiteInput.on('end', function () {
 
   blackInput.on('end', function () {
     console.log('Added ' + blackCount + ' words to blacklist')
+
+    var asciiInput = byline(fs.createReadStream(__dirname + '/../lists/ascii-blacklist.txt', { encoding: 'utf8' }))
+      , asciiCount = 0
+
+    asciiInput.on('data', function (word) {
+      asciiInput.pause()
+
+      request(
+        { url: url + '/filter/ascii'
+        , method: 'POST'
+        , json: true
+        , headers: { 'content-type': 'application/json' }
+        , body: { msg: [ word ] }
+        }, function (error) {
+          if (error) {
+            console.error(error)
+          } else {
+            asciiCount++
+          }
+
+          asciiInput.resume()
+        })
+    })
+
+    asciiInput.on('end', function () {
+      console.log('Added ' + asciiCount + ' ascii to blacklist')
+    })
+
   })
 })
