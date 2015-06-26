@@ -18,8 +18,8 @@
     "natural": "^0.2.1",
     "redis": "^0.12.1",
     "redis-scanstreams": "^1.0.3",
-    "redsee-filter": "0.0.1",
-    "redsee-server": "0.0.1",
+    "redsee-filter": "1.1.1",
+    "redsee-server": "1.0.0",
     "request": "^2.57.0",
     "response-time": "^2.3.1"
   },
