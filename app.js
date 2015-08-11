@@ -30,6 +30,8 @@ domain.run(function () {
     , client = redis.createClient(6379, host)
     , server = redseeServer(client, filter)
 
+  client.prefix = process.env.REDIS_PREFIX || ''
+
   app.set('port', port)
 
   // Don't tell people we are the express train
