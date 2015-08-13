@@ -11,7 +11,8 @@ var express = require('express')
     , level: 'debug'
     })
   , domain = require('domain').create()
-  , shutdownGracefullyMiddleware = require('express-graceful-shutdown')
+  , http = require('http')
+  , shutdownGracefully = require('express-graceful-shutdown')
   , debounce = require('async-debounce')
   , cacheTest = require('./lib/cache-test')
   , createPhoneticCleaner = require('./lib/phonetic-cleaner')
@@ -84,9 +85,11 @@ domain.run(function () {
   server.on('redsee-deleted:words', cacheCleaner)
   server.on('redsee-deleted:words', phoneticCleaner)
 
-  var appServer = app.listen(app.get('port'), function() {
+  var appServer = http.createServer(app)
+  app.use(shutdownGracefully(appServer, { logger: bunyanLogger }))
+
+  appServer.listen(app.get('port'), function() {
     bunyanLogger.info('Server listening on port', app.get('port'))
   })
 
-  shutdownGracefullyMiddleware(appServer, { logger: bunyanLogger })
 })
