@@ -21,8 +21,8 @@
     "progress": "^1.1.8",
     "redis": "^0.12.1",
     "redis-scanstreams": "^1.0.3",
-    "redsee-filter": "^2.0.0",
-    "redsee-server": "^2.0.0",
+    "redsee-filter": "^2.0.1",
+    "redsee-server": "^3.0.0",
     "request": "^2.57.0",
     "response-time": "^2.3.1"
   },
