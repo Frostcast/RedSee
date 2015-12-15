@@ -1,5 +1,5 @@
 var request = require('request')
-  , ProgressBar =  require('progress')
+  , ProgressBar = require('progress')
   , async = require('async')
   , byline = require('byline')
   , fs = require('fs')
@@ -10,16 +10,11 @@ if (!url) {
   process.exit(1)
 }
 
-var whitelist = __dirname + '/../lists/words-whitelist.txt'
-  , blacklist = __dirname + '/../lists/words-blacklist.txt'
+var blacklist = __dirname + '/../lists/words-blacklist.txt'
   , ascii = __dirname + '/../lists/ascii-blacklist.txt'
 
 async.waterfall(
-  [ async.apply(getTotal, whitelist)
-  , function (total, cb) {
-    processFile(whitelist, 'whitelist', total, cb)
-  }
-  , async.apply(getTotal, blacklist)
+  [ async.apply(getTotal, blacklist)
   , function (total, cb) {
     processFile(blacklist, 'blacklist', total, cb)
   }
@@ -51,10 +46,10 @@ function getTotal(filePath, callback) {
 }
 
 function processFile(filePath, type, total, callback) {
-  var wordInc = 5
+  var wordInc = 20
     , requestCount = 0
     , words = []
-    , totalRequests = 10
+    , totalRequests = 40
     , bar = new ProgressBar('inserting :total ' + type + ' [:bar] :percent :etas'
     , { complete: '='
       , incomplete: ' '
@@ -77,7 +72,7 @@ function processFile(filePath, type, total, callback) {
         , method: 'POST'
         , json: true
         , headers: { 'content-type': 'application/json' }
-        , body: { msg: words , type: type }
+        , body: { msg: words, type: type }
         }
         , function (error) {
           if (error) {
@@ -88,8 +83,7 @@ function processFile(filePath, type, total, callback) {
 
           requestCount--
 
-          if (requestCount === 0) {
-            requestCount = 0;
+          if (requestCount < totalRequests) {
             stream.resume()
           }
         })
@@ -105,7 +99,7 @@ function processFile(filePath, type, total, callback) {
         , method: 'POST'
         , json: true
         , headers: { 'content-type': 'application/json' }
-        , body: { msg: words , type: type }
+        , body: { msg: words, type: type }
         }
         , function (error) {
           if (error) return callback(error)

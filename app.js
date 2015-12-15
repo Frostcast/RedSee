@@ -1,7 +1,7 @@
 var express = require('express')
   , bodyParser = require('body-parser')
   , responseTime = require('response-time')
-  , redis = require('redis')
+  , createClient = require('redsee-client')
   , filter = require('redsee-filter')
   , redseeServer = require('redsee-server')
   , bunyanMiddleware = require('bunyan-middleware')
@@ -10,25 +10,35 @@ var express = require('express')
     , stream: process.stdout
     , level: 'debug'
     })
-  , domain = require('domain').create()
   , http = require('http')
   , shutdownGracefully = require('express-graceful-shutdown')
-  , debounce = require('async-debounce')
-  , cacheTest = require('./lib/cache-test')
-  , createPhoneticCleaner = require('./lib/phonetic-cleaner')
-  , host = process.env.REDIS_HOST || '127.0.0.1'
+  // , debounce = require('async-debounce')
+  // , cacheTest = require('./lib/cache-test')
+  // , createPhoneticCleaner = require('./lib/phonetic-cleaner')
   , port = process.env.PORT || 3000
+  , opts =
+  { whitelist:
+    { words: { data: __dirname + '/lists/storage/words-whitelist.json' }
+    , emails: { data: __dirname + '/lists/storage/emails-whitelist.json' }
+    , phrases: { data: __dirname + '/lists/storage/phrases-whitelist.json' }
+    , urls: { data: __dirname + '/lists/storage/urls-whitelist.json' }
+    }
+  , blacklist:
+    { words: { data: __dirname + '/lists/storage/words-blacklist.json' }
+    , ascii: { data: __dirname + '/lists/storage/ascii-blacklist.json' }
+    , phrases: { data: __dirname + '/lists/storage/phrases-blacklist.json' }
+    , phonetics: { data: __dirname + '/lists/storage/phonetics-blacklist.json' }
+    , wordsBypass: { data: __dirname + '/lists/storage/words-bypass-blacklist.json' }
+    }
+  }
 
-require('redis-scanstreams')(redis)
-
-domain.on('error', function (error) {
-  bunyanLogger.error(error)
-})
-
-domain.run(function () {
+createClient(opts, function (error, client) {
+  if (error) {
+    bunyanLogger.error(error)
+    process.exit(1)
+  }
 
   var app = express()
-    , client = redis.createClient(6379, host)
     , server = redseeServer(client, filter)
 
   client.prefix = process.env.REDIS_PREFIX || ''
@@ -69,26 +79,27 @@ domain.run(function () {
   app.delete('/filter/ascii', server.routes.ascii.delete)
 
   // Listeners
-  var cacheCleaner = debounce(cacheTest(client, filter, bunyanLogger), 60000) // 1 minute
-    , phoneticCleaner = debounce(createPhoneticCleaner(client, filter, bunyanLogger), 60000) // 1 minute
+  // var cacheCleaner = debounce(cacheTest(client, filter, bunyanLogger), 60000) // 1 minute
+  // var phoneticCleaner = debounce(createPhoneticCleaner(client, filter, bunyanLogger), 60000) // 1 minute
 
-  server.on('redsee-created:emails', cacheCleaner)
-  server.on('redsee-deleted:emails', cacheCleaner)
+  // server.on('redsee-created:emails', cacheCleaner)
+  // server.on('redsee-deleted:emails', cacheCleaner)
 
-  server.on('redsee-created:phrases', cacheCleaner)
-  server.on('redsee-deleted:phrases', cacheCleaner)
+  // server.on('redsee-created:phrases', cacheCleaner)
+  // server.on('redsee-deleted:phrases', cacheCleaner)
 
-  server.on('redsee-created:urls', cacheCleaner)
-  server.on('redsee-deleted:urls', cacheCleaner)
+  // server.on('redsee-created:urls', cacheCleaner)
+  // server.on('redsee-deleted:urls', cacheCleaner)
 
-  server.on('redsee-created:words', cacheCleaner)
-  server.on('redsee-deleted:words', cacheCleaner)
-  server.on('redsee-deleted:words', phoneticCleaner)
+  // server.on('redsee-created:words', cacheCleaner)
+  // server.on('redsee-deleted:words', cacheCleaner)
+  // server.on('redsee-deleted:words', phoneticCleaner)
 
   var appServer = http.createServer(app)
+
   app.use(shutdownGracefully(appServer, { logger: bunyanLogger }))
 
-  appServer.listen(app.get('port'), function() {
+  appServer.listen(app.get('port'), function () {
     bunyanLogger.info('Server listening on port', app.get('port'))
   })
 
