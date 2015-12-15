@@ -1,6 +1,6 @@
 # RedSee
 
-An implementation of [redsee-filter](https://github.com/confuser/node-redsee-filter) and [redsee-server](https://github.com/confuser/node-redsee-server) to provide a REST API server for english profanity, email and url filtering via redis.
+An implementation of [redsee-filter](https://github.com/confuser/node-redsee-filter) and [redsee-server](https://github.com/confuser/node-redsee-server) to provide a REST API server for english profanity, email and url filtering.
 
 [Demo](http://redsee.frostcast.net)
 
